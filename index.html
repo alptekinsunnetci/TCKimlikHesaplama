@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function calculateTCKimlik() {
+            var tcKimlikNo = document.getElementById("tcKimlikNo").value;
+            if (tcKimlikNo.length === 9) {
+                var tcKimlikArray = tcKimlikNo.split('').map(Number);
+
+                var toplam1 = 0;
+                var toplam2 = 0;
+
+                for (var i = 0; i < 9; i++) {
+                    if (i % 2 === 0) {
+                        toplam1 += tcKimlikArray[i];
+                    } else {
+                        toplam2 += tcKimlikArray[i];
+                    }
+                }
+
+                var hane10 = (toplam1 * 7 - toplam2) % 10;
+                var hane11 = (toplam1 + toplam2 + hane10) % 10;
+
+                var tamamlananTCKimlik = tcKimlikNo + hane10 + hane11;
+                document.getElementById("tcKimlikNo").value = tamamlananTCKimlik;
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="tcKimlikNo" maxlength="11" oninput="calculateTCKimlik()">
+</body>
+</html>
