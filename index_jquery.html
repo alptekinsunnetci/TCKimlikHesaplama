@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TC Kimlik No Otomatik Tamamlayıcı (jQuery)</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            $('#tcKimlikNo').on('input', function () {
+                var $input = $(this);
+                var tcKimlikNo = $input.val().replace(/\D/g, '');
+
+                if (tcKimlikNo.length === 9) {
+                    var toplam1 = 0;
+                    var toplam2 = 0;
+                    for (var i = 0; i < 9; i++) {
+                        var digit = Number(tcKimlikNo[i]);
+                        if (i % 2 === 0) {
+                            toplam1 += digit;
+                        } else {
+                            toplam2 += digit;
+                        }
+                    }
+                    var hane10 = ((toplam1 * 7) - toplam2) % 10;
+                    var toplam = 0;
+                    for (var j = 0; j < 9; j++) toplam += Number(tcKimlikNo[j]);
+                    var hane11 = (toplam + hane10) % 10;
+
+                    var tamamlananTCKimlik = tcKimlikNo + hane10 + hane11;
+                    $input.val(tamamlananTCKimlik);
+                } else if (tcKimlikNo.length > 11) {
+                    $input.val(tcKimlikNo.slice(0, 11));
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <label for="tcKimlikNo">TC Kimlik No (ilk 9 haneyi girin):</label><br>
+    <input type="text" id="tcKimlikNo" maxlength="11" pattern="\d*" inputmode="numeric" autocomplete="off">
+</body>
+</html>
